@@ -12,5 +12,9 @@
     "eslint": "^3.19.0",
     "eslint-config-airbnb-base": "^11.2.0",
     "eslint-plugin-import": "^2.2.0"
+  },
+  "scripts": {
+    "lint": "./node_modules/.bin/eslint .",
+    "start": "node index.js"
   }
 }
