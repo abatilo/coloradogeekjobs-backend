@@ -1,0 +1,11 @@
+{
+  "name": "coloradogeekjobs-backend",
+  "version": "1.0.0",
+  "description": "Backend for coloradogeekjobs",
+  "main": "index.js",
+  "repository": "git@github.com:abatilo/coloradogeekjobs-backend.git",
+  "author": "Aaron <AaronBatilo@gmail.com>",
+  "dependencies": {
+    "eslint": "^3.19.0"
+  }
+}
