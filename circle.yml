@@ -1,0 +1,15 @@
+machine:
+  node:
+    version: 7.9.0
+
+deployment:
+  staging:
+    branch: master
+    heroku:
+      appname: coloradogeekjobs-backend 
+
+dependencies:
+  override:
+    - yarn
+  cache_directories:
+    - ~/.cache/yarn
