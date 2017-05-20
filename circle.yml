@@ -21,7 +21,6 @@ test:
   override:
     - yarn test
   post:
-    - yarn run coverage
     - mkdir -p $CIRCLE_TEST_REPORTS/junit/
     - cp test-results.xml $CIRCLE_TEST_REPORTS/junit/test-results.xml
 
