@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const MongoClient = require('mongodb').MongoClient;
 
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/coloradogeekjobs';
 const app = express();
 let dbHandle = null;
 
@@ -11,10 +12,14 @@ app.set('port', PORT);
 
 app.use('/', express.static(path.join(__dirname, 'public')));
 
-app.get('/jobs', (req, res) => {
-  pool.query('SELECT * FROM jobs', (err, result) => {
-    res.send(result);
-  });
+app.get('/jobs', async (req, res) => {
+  const collection = dbHandle.collection('jobs');
+  const results = await collection.find({}).toArray();
+
+  // used for filtering by time
+  // const d = new Date(new Date() - 5000); - only finds things younger than 5 seconds
+  // const arr = await collection.find({ date: { $lt: d } }).toArray();
+  res.send(results);
 });
 
 app.listen(app.get('port'), () => {
