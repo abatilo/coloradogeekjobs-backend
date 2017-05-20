@@ -1,21 +1,9 @@
 const express = require('express');
 const path = require('path');
-const pg = require('pg');
-const url = require('url');
+const MongoClient = require('mongodb').MongoClient;
 
 const app = express();
-
-const params = url.parse(process.env.DATABASE_URL);
-const auth = params.auth.split(':');
-const config = {
-  user: auth[0],
-  password: auth[1],
-  host: params.hostname,
-  port: params.port,
-  database: params.pathname.split('/')[1],
-  ssl: true
-};
-const pool = new pg.Pool(config);
+let dbHandle = null;
 
 // Let Heroku decide the port number to use
 const PORT = process.env.PORT || 8080;
@@ -30,5 +18,10 @@ app.get('/jobs', (req, res) => {
 });
 
 app.listen(app.get('port'), () => {
-  console.log("Listening on " + app.get('port'));
+  // console.log('Listening on ' + app.get('port'));
+});
+
+MongoClient.connect(MONGODB_URI, async (err, db) => {
+  console.log('Connected successfully to the database');
+  dbHandle = db;
 });
