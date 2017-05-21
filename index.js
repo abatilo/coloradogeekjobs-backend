@@ -14,6 +14,10 @@ const PORT = process.env.PORT || 8080;
 app.use(bodyParser.json());
 app.use('/', express.static(path.join(__dirname, 'public')));
 
+const hasRequiredKeys = (obj, requiredKeys) => {
+  _.every(requiredKeys, _.partial(_.has, obj));
+};
+
 app.get('/jobs', async (req, res) => {
   const collection = dbHandle.collection('jobs');
   const results = await collection.find({}).toArray();
@@ -26,25 +30,25 @@ app.get('/jobs', async (req, res) => {
 
 app.post('/post-job', async (req, res) => {
   const json = req.body;
-  const requiredKeys = [ 
-    'city'        ,
-    'company'     ,
-    'description' ,
-    'email'       ,
-    'how'         ,
-    'remote'      ,
-    'title'       ,
-    'url'         ,
+  const requiredKeys = [
+    'city',
+    'company',
+    'description',
+    'email',
+    'how',
+    'remote',
+    'title',
+    'url',
   ];
 
   if (!hasRequiredKeys(json, requiredKeys)) {
-    let error = {
-      error: 'Missing keys'
+    const error = {
+      error: 'Missing keys',
     };
     res.status(500).json(error);
     return;
   }
-  const collection = dbHandle.collection('jobs');
+  // const collection = dbHandle.collection('jobs');
   res.send(req.body);
 });
 
@@ -54,7 +58,3 @@ MongoClient.connect(MONGODB_URI, async (err, db) => {
   console.log('Connected successfully to the database');
   dbHandle = db;
 });
-
-const hasRequiredKeys = (obj, requiredKeys) => {
-  return requiredKeys.every(key => key in obj);
-}
