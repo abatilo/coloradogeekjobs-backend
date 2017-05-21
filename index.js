@@ -25,6 +25,26 @@ app.get('/jobs', async (req, res) => {
 });
 
 app.post('/post-job', async (req, res) => {
+  const json = req.body;
+  const requiredKeys = [ 
+    'city'        ,
+    'company'     ,
+    'description' ,
+    'email'       ,
+    'how'         ,
+    'remote'      ,
+    'title'       ,
+    'url'         ,
+  ];
+
+  if (!hasRequiredKeys(json, requiredKeys)) {
+    let error = {
+      error: 'Missing keys'
+    };
+    res.status(500).json(error);
+    return;
+  }
+  const collection = dbHandle.collection('jobs');
   res.send(req.body);
 });
 
