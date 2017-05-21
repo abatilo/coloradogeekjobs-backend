@@ -8,7 +8,6 @@ let dbHandle = null;
 
 // Let Heroku decide the port number to use
 const PORT = process.env.PORT || 8080;
-app.set('port', PORT);
 
 app.use('/', express.static(path.join(__dirname, 'public')));
 
@@ -22,9 +21,7 @@ app.get('/jobs', async (req, res) => {
   res.send(results);
 });
 
-app.listen(app.get('port'), () => {
-  // console.log('Listening on ' + app.get('port'));
-});
+app.listen(PORT);
 
 MongoClient.connect(MONGODB_URI, async (err, db) => {
   console.log('Connected successfully to the database');
