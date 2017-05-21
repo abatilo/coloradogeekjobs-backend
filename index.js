@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const MongoClient = require('mongodb').MongoClient;
+const _ = require('lodash');
 
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/coloradogeekjobs';
 const app = express();
@@ -33,3 +34,7 @@ MongoClient.connect(MONGODB_URI, async (err, db) => {
   console.log('Connected successfully to the database');
   dbHandle = db;
 });
+
+const hasRequiredKeys = (obj, requiredKeys) => {
+  return requiredKeys.every(key => key in obj);
+}
