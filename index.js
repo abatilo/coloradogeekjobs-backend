@@ -42,13 +42,21 @@ app.post('/post-job', async (req, res) => {
 
   if (!hasRequiredKeys(json, requiredKeys)) {
     const error = {
+      status: 'error',
       error: 'Missing keys',
     };
     res.status(500).json(error);
     return;
   }
-  // const collection = dbHandle.collection('jobs');
-  res.send(req.body);
+  const collection = dbHandle.collection('jobs');
+  collection.insert(json, (err, result) => {
+    if (!err && result) {
+      const success = {
+        status: 'success',
+      };
+      res.status(200).json(success);
+    }
+  });
 });
 
 app.listen(PORT);
