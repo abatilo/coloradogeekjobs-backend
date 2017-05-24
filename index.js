@@ -14,9 +14,8 @@ const PORT = process.env.PORT || 8080;
 app.use(bodyParser.json());
 app.use('/', express.static(path.join(__dirname, 'public')));
 
-const hasRequiredKeys = (obj, requiredKeys) => {
-  _.every(requiredKeys, _.partial(_.has, obj));
-};
+// https://stackoverflow.com/questions/29001762/lodash-has-for-multiple-keys
+const hasRequiredKeys = (obj, requiredKeys) => _.every(requiredKeys, _.partial(_.has, obj));
 
 app.get('/jobs', async (req, res) => {
   const collection = dbHandle.collection('jobs');
@@ -58,3 +57,5 @@ MongoClient.connect(MONGODB_URI, async (err, db) => {
   console.log('Connected successfully to the database');
   dbHandle = db;
 });
+
+module.exports.hasRequiredKeys = hasRequiredKeys;
