@@ -17,7 +17,7 @@ dependencies:
 test:
   pre:
     - mkdir -p $CIRCLE_TEST_REPORTS/reports
-    - ./node_modules/.bin/eslint . --format junit --output-file $CIRCLE_TEST_REPORTS/reports/eslint.xml
+    - ./node_modules/.bin/eslint . --quiet --format junit --output-file $CIRCLE_TEST_REPORTS/reports/eslint.xml
   override:
     - yarn test
   post:
