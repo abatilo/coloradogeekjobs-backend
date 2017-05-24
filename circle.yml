@@ -6,7 +6,7 @@ deployment:
   staging:
     branch: master
     heroku:
-      appname: coloradogeekjobs-backend 
+      appname: coloradogeekjobs-backend
 
 dependencies:
   override:
