@@ -24,7 +24,7 @@ app.get('/jobs', async (req, res) => {
   // used for filtering by time
   // const d = new Date(new Date() - 5000); - only finds things younger than 5 seconds
   // const arr = await collection.find({ date: { $lt: d } }).toArray();
-  res.send(results);
+  res.status(200).json(results);
 });
 
 app.post('/post-job', async (req, res) => {
