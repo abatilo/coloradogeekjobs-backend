@@ -5,6 +5,7 @@ const MongoClient = require('mongodb').MongoClient;
 const _ = require('lodash');
 
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/coloradogeekjobs';
+const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN || 'http://localhost:3000';
 const app = express();
 let dbHandle = null;
 
@@ -24,6 +25,7 @@ app.get('/jobs', async (req, res) => {
   // used for filtering by time
   // const d = new Date(new Date() - 5000); - only finds things younger than 5 seconds
   // const arr = await collection.find({ date: { $lt: d } }).toArray();
+  res.header('Access-Control-Allow-Origin', ALLOWED_ORIGIN);
   res.status(200).json(results);
 });
 
