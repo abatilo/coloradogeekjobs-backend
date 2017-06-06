@@ -30,7 +30,7 @@ app.get('/jobs', async (req, res) => {
 });
 
 app.post('/post-job', async (req, res) => {
-  let json = req.body;
+  const json = req.body;
   json.date = new Date();
   const requiredKeys = [
     'city',
