@@ -20,11 +20,9 @@ const hasRequiredKeys = (obj, requiredKeys) => _.every(requiredKeys, _.partial(_
 
 app.get('/jobs', async (req, res) => {
   const collection = dbHandle.collection('jobs');
-  const results = await collection.find({}).toArray();
-
-  // used for filtering by time
-  // const d = new Date(new Date() - 5000); - only finds things younger than 5 seconds
-  // const arr = await collection.find({ date: { $lt: d } }).toArray();
+  const twoWeeks = (1000 * 60 * 60 * 24 * 14);
+  const expiryDate = new Date(new Date() - twoWeeks);
+  const results = await collection.find({ date: { $lt: expiryDate } }).toArray();
   res.header('Access-Control-Allow-Origin', ALLOWED_ORIGIN);
   res.status(200).json(results);
 });
