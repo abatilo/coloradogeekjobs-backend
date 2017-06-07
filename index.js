@@ -22,7 +22,7 @@ app.get('/jobs', async (req, res) => {
   const collection = dbHandle.collection('jobs');
   const twoWeeks = (1000 * 60 * 60 * 24 * 14);
   const expiryDate = new Date(new Date() - twoWeeks);
-  const results = await collection.find({ date: { $lt: expiryDate } }).toArray();
+  const results = await collection.find({ date: { $gte: expiryDate } }).toArray();
   res.header('Access-Control-Allow-Origin', ALLOWED_ORIGIN);
   res.status(200).json(results);
 });
