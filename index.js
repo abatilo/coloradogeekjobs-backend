@@ -18,6 +18,14 @@ app.use('/', express.static(path.join(__dirname, 'public')));
 // https://stackoverflow.com/questions/29001762/lodash-has-for-multiple-keys
 const hasRequiredKeys = (obj, requiredKeys) => _.every(requiredKeys, _.partial(_.has, obj));
 
+// Based heavily on:
+// https://stackoverflow.com/questions/18310394/no-access-control-allow-origin-node-apache-port-issue
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', ALLOWED_ORIGIN);
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+  next();
+});
+
 app.get('/jobs', async (req, res) => {
   const collection = dbHandle.collection('jobs');
   const twoWeeks = (1000 * 60 * 60 * 24 * 14);
@@ -25,7 +33,6 @@ app.get('/jobs', async (req, res) => {
   const results = await collection
     .find({ date: { $gte: expiryDate } })
     .sort({ date: -1 }).toArray();
-  res.header('Access-Control-Allow-Origin', ALLOWED_ORIGIN);
   res.status(200).json(results);
 });
 
