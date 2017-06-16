@@ -24,7 +24,7 @@ const createCountersIfNotExist = async (db) => {
   const contents = await counters.find({}).toArray();
   if (contents.length === 0) {
     try {
-      const res = await counters.insert({_id: "jobid", seq: 0});
+      const res = await counters.insert({ _id: "jobid", seq: 0 });
       if (res) {
         console.log('Created counter');
       }
@@ -34,7 +34,16 @@ const createCountersIfNotExist = async (db) => {
   }
 }
 
-// https://docs.mongodb.com/v3.0/tutorial/create-an-auto-incrementing-field/
+const incrementJobID = async () => {
+  const counters = dbHandle.collection('counters');
+  try {
+    await counters.update( { _id: 'jobid' }, { $inc: { seq: 1 } });
+    const ret = await counters.findOne( { _id: 'jobid' } );
+    return ret.seq;
+  } catch (e) {
+    console.log('There was a problem incrementing the latest jobID');
+  }
+}
 
 // Based heavily on:
 // https://stackoverflow.com/questions/18310394/no-access-control-allow-origin-node-apache-port-issue
@@ -57,6 +66,7 @@ app.get('/jobs', async (req, res) => {
 app.post('/post-job', async (req, res) => {
   const json = req.body;
   json.date = new Date();
+  json.id = await incrementJobID();
   const requiredKeys = [
     'city',
     'company',
