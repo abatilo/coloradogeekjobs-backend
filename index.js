@@ -26,7 +26,7 @@ const createCountersIfNotExist = async (db) => {
     try {
       const res = await counters.insert({_id: "jobid", seq: 0});
       if (res) {
-        console.log("Created counter");
+        console.log('Created counter');
       }
     } catch (e) {
       console.log('There was a problem');
