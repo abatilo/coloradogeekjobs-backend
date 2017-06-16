@@ -18,6 +18,7 @@ app.use('/', express.static(path.join(__dirname, 'public')));
 // https://stackoverflow.com/questions/29001762/lodash-has-for-multiple-keys
 const hasRequiredKeys = (obj, requiredKeys) => _.every(requiredKeys, _.partial(_.has, obj));
 
+// https://docs.mongodb.com/v3.0/tutorial/create-an-auto-incrementing-field/#use-counters-collection
 const createCountersIfNotExist = async (db) => {
   const counters = db.collection('counters');
   const contents = await counters.find({}).toArray();
