@@ -18,6 +18,23 @@ app.use('/', express.static(path.join(__dirname, 'public')));
 // https://stackoverflow.com/questions/29001762/lodash-has-for-multiple-keys
 const hasRequiredKeys = (obj, requiredKeys) => _.every(requiredKeys, _.partial(_.has, obj));
 
+const createCountersIfNotExist = async (db) => {
+  const counters = db.collection('counters');
+  const contents = await counters.find({}).toArray();
+  if (contents.length === 0) {
+    try {
+      const res = await counters.insert({_id: "jobid", seq: 0});
+      if (res) {
+        console.log("Created counter");
+      }
+    } catch (e) {
+      console.log('There was a problem');
+    }
+  }
+}
+
+// https://docs.mongodb.com/v3.0/tutorial/create-an-auto-incrementing-field/
+
 // Based heavily on:
 // https://stackoverflow.com/questions/18310394/no-access-control-allow-origin-node-apache-port-issue
 app.use((req, res, next) => {
@@ -74,6 +91,7 @@ app.listen(PORT);
 MongoClient.connect(MONGODB_URI, async (err, db) => {
   console.log('Connected successfully to the database');
   dbHandle = db;
+  createCountersIfNotExist(db);
 });
 
 module.exports.hasRequiredKeys = hasRequiredKeys;
