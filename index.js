@@ -56,8 +56,8 @@ app.use((req, res, next) => {
 
 app.get('/jobs', async (req, res) => {
   const collection = dbHandle.collection('jobs');
-  const twoWeeks = (1000 * 60 * 60 * 24 * 14);
-  const expiryDate = new Date(new Date() - twoWeeks);
+  const thirtyDays = (1000 * 60 * 60 * 24 * 30);
+  const expiryDate = new Date(new Date() - thirtyDays);
   const results = await collection
     .find({ date: { $gte: expiryDate } })
     .sort({ date: -1 }).toArray();
