@@ -6,7 +6,7 @@
   "repository": "git@github.com:abatilo/coloradogeekjobs-backend.git",
   "author": "Aaron <AaronBatilo@gmail.com>",
   "engines": {
-    "node": "7.9.0"
+    "node": "8.1.4"
   },
   "dependencies": {
     "body-parser": "^1.17.2",
