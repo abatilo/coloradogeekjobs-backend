@@ -74,7 +74,6 @@ app.post('/post-job', async (req, res) => {
     'description',
     'email',
     'how',
-    'remote',
     'title',
     'url',
   ];
